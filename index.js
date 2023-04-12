@@ -1,6 +1,10 @@
 const http = require('http');
 const fs   = require('fs');
 const { Console } = require('console');
+const { Server } = require('socket.io');
+const { Socket } = require('dgram');
+
+const io = new Server();
 
 const hostname = "127.0.0.1";
 const port = 3000;
@@ -16,7 +20,7 @@ const server = http.createServer((req, res)=>{
         {
          res.writeHead(200, {'Content-Type': 'text/html'});
          res.write(data);
-
+         
          return res.end();
         }else{
          res.writeHead(404);
@@ -24,6 +28,10 @@ const server = http.createServer((req, res)=>{
         }
    })
 
+});
+
+io.on('connection', (socket)=>{
+   console.log('User connected');
 });
 
 server.listen(port, hostname, ()=>{
